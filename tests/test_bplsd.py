@@ -3,7 +3,7 @@ import stim
 from dem_decoders import BP_LSD
 
 
-def test_bp_osd():
+def test_bp_lsd():
     circuit = stim.Circuit.generated(
         code_task="surface_code:rotated_memory_x",
         distance=3,
