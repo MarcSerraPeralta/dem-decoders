@@ -27,5 +27,4 @@ include = ["dem_decoders", "dem_decoders.*"]  # package names should match these
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [project.optional-dependencies]
-dev = ["pip-tools", "pytest", "scalene", "black", "sphinx", "sphinx-rtd-theme", "pytest-black"]
-
+dev = ["pip-tools", "pytest", "scalene", "black", "pytest-black"]
