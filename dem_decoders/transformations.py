@@ -36,7 +36,7 @@ def dem_to_hplc(
     """
     if not isinstance(dem, stim.DetectorErrorModel):
         raise TypeError(
-            f"'dem' must be a stim.DetectorErrorModel, but {type(dem)} was given"
+            f"'dem' must be a stim.DetectorErrorModel, but {type(dem)} was given."
         )
 
     det_err_list = []
@@ -89,9 +89,10 @@ def dem_to_hplc(
     coords = np.empty(shape=(dem.num_detectors))
     if coords_dict:
         if dem.num_detectors != len(coords_dict):
-            raise ValueError("Either all the detectors have coordinates or none,"
-                             " but not all of them have."
-                             )
+            raise ValueError(
+                "Either all the detectors have coordinates or none,"
+                " but not all of them have."
+            )
         coords = np.array([coords_dict[i] for i in range(dem.num_detectors)])
 
     return det_err_matrix, err_probs, log_err_matrix, coords
@@ -190,7 +191,9 @@ def _list_to_csc_matrix(my_list: List[List[int]], shape: Tuple[int, int]) -> csc
         )
 
     num_ones = sum(len(l) for l in my_list)
-    data = np.ones(num_ones, dtype=np.uint8) # smallest integer size (bool operations do not work)
+    data = np.ones(
+        num_ones, dtype=np.uint8
+    )  # smallest integer size (bool operations do not work)
     row_inds = np.empty(num_ones, dtype=int)
     col_inds = np.empty(num_ones, dtype=int)
     i = 0

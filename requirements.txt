@@ -4,12 +4,73 @@
 #
 #    pip-compile --output-file=requirements.txt pyproject.toml
 #
+beliefmatching==0.1.1
+    # via ldpc
+contourpy==1.2.1
+    # via matplotlib
+cycler==0.12.1
+    # via matplotlib
+fonttools==4.53.1
+    # via matplotlib
+iniconfig==2.0.0
+    # via pytest
+kiwisolver==1.4.5
+    # via matplotlib
+ldpc @ git+ssh://git@github.com/quantumgizmos/ldpc_v2
+    # via
+    #   beliefmatching
+    #   dem-decoders (pyproject.toml)
+matplotlib==3.9.2
+    # via
+    #   pymatching
+    #   sinter
+networkx==3.3
+    # via pymatching
 numpy==2.1.0
     # via
+    #   contourpy
     #   dem-decoders (pyproject.toml)
+    #   ldpc
+    #   matplotlib
+    #   pymatching
     #   scipy
+    #   sinter
     #   stim
+packaging==24.1
+    # via
+    #   matplotlib
+    #   pytest
+pillow==10.4.0
+    # via matplotlib
+pluggy==1.5.0
+    # via pytest
+pymatching==2.2.0
+    # via beliefmatching
+pyparsing==3.1.2
+    # via matplotlib
+pytest==8.3.2
+    # via ldpc
+python-dateutil==2.9.0.post0
+    # via matplotlib
 scipy==1.14.1
-    # via dem-decoders (pyproject.toml)
+    # via
+    #   dem-decoders (pyproject.toml)
+    #   ldpc
+    #   pymatching
+    #   sinter
+sinter==1.11.0
+    # via
+    #   beliefmatching
+    #   ldpc
+six==1.16.0
+    # via python-dateutil
 stim==1.13.0
-    # via dem-decoders (pyproject.toml)
+    # via
+    #   beliefmatching
+    #   dem-decoders (pyproject.toml)
+    #   ldpc
+    #   sinter
+tqdm==4.66.5
+    # via
+    #   dem-decoders (pyproject.toml)
+    #   ldpc

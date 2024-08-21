@@ -22,18 +22,18 @@ def comb_two_probs(p1: float, p2: float) -> float:
 
 
 def comb_probs(*probs) -> float | int:
-    """Returns the probability that an odd number of events happens. 
+    """Returns the probability that an odd number of events happens.
 
     Parameters
     ----------
     probs
-        Iterable of probabilities. 
+        Iterable of probabilities.
         It can also be a tuple of a single iterable of probabilities.
 
     Returns
     -------
     odd_prob
-        Probability that an off number of events happens. 
+        Probability that an off number of events happens.
     """
     # if a list or a numpy.array is passed as input
     if len(probs) == 1 and (not isinstance(probs[0], numbers.Number)):
