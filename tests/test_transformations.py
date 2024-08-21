@@ -1,8 +1,7 @@
 import numpy as np
 import stim
 
-import dem_utils.transformations as transformations
-from dem_utils import dem_to_hplc, hplc_to_dem
+from dem_decoders import dem_to_hplc, hplc_to_dem
 
 
 def test_dem_to_hplc():
@@ -19,7 +18,7 @@ def test_dem_to_hplc():
     assert h.shape == (6 * 2, 5 * 3)
     assert l.shape == (1, 5 * 3)
     assert p.shape == (5 * 3,)
-    assert c.shape == (6 * 2,)
+    assert c.shape == (6 * 2, 2)
 
     return
 

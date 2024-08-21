@@ -4,7 +4,7 @@ import numpy as np
 from scipy.sparse import csc_matrix
 import stim
 
-from .utils import comb_probs
+from .util import comb_probs
 
 
 def dem_to_hplc(
