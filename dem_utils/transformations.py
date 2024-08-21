@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 
 import numpy as np
 from scipy.sparse import csc_matrix
@@ -29,8 +29,8 @@ def dem_to_hplc(
     log_err_matrix : np.ndarray(L, E)
         Logicals-error matrix which relates the error mechanisms and the logical
         observables that they flip. ``L`` is the number of logical observables.
-    coords : np.ndarray(D, ...)
-        Coordinates associated with each detector.
+    coords : np.ndarray(D, C)
+        Coordinates associated with each detector, with ``C`` the number of coordinates.
         If no coordinates are present in ``dem``, an empty array of shape ``(D,)``
         is returned.
     """
@@ -88,7 +88,11 @@ def dem_to_hplc(
     err_probs = np.array(err_probs_list)
     coords = np.empty(shape=(dem.num_detectors))
     if coords_dict:
-        coords = np.array([coords[i] for i in range(dem.num_detectors)])
+        if dem.num_detectors != len(coords_dict):
+            raise ValueError("Either all the detectors have coordinates or none,"
+                             " but not all of them have."
+                             )
+        coords = np.array([coords_dict[i] for i in range(dem.num_detectors)])
 
     return det_err_matrix, err_probs, log_err_matrix, coords
 
@@ -97,7 +101,7 @@ def hplc_to_dem(
     det_err_matrix: csc_matrix | np.ndarray,
     err_probs: np.ndarray | List[float],
     log_err_matrix: csc_matrix | np.ndarray,
-    coords: np.ndarray = None,
+    coords: Optional[np.ndarray] = None,
 ) -> stim.DetectorErrorModel:
     """Returns the corresponding ``stim.DetectorErrorModel`` from the specified
     detector-error matrix, error probabilities, logicals-error matrix and coordinates.
@@ -186,7 +190,7 @@ def _list_to_csc_matrix(my_list: List[List[int]], shape: Tuple[int, int]) -> csc
         )
 
     num_ones = sum(len(l) for l in my_list)
-    data = np.ones(num_ones, dtype=bool)
+    data = np.ones(num_ones, dtype=np.uint8) # smallest integer size (bool operations do not work)
     row_inds = np.empty(num_ones, dtype=int)
     col_inds = np.empty(num_ones, dtype=int)
     i = 0
