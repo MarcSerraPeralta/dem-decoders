@@ -9,6 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: setup ssh-keys for clonning over ssh
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_ed25519
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
