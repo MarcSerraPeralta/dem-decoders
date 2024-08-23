@@ -31,12 +31,12 @@ class BP_LSD:
         return
 
     def decode(self, syndrome: np.ndarray) -> np.ndarray:
-        """Decodes a single sample of an experiment. 
+        """Decodes a single sample of an experiment.
 
         Parameters
         ----------
         syndrome: np.ndarray(D)
-            Observed (detector) syndrome vector. 
+            Observed (detector) syndrome vector.
             Its length must match ``dem.num_detectors``.
 
         Returns
@@ -50,12 +50,12 @@ class BP_LSD:
         return prediction
 
     def decode_to_faults_array(self, syndrome: np.ndarray) -> np.ndarray:
-        """Decodes a single sample of an experiment. 
+        """Decodes a single sample of an experiment.
 
         Parameters
         ----------
         syndrome: np.ndarray(D)
-            Observed (detector) syndrome vector. 
+            Observed (detector) syndrome vector.
             Its length must match ``dem.num_detectors``.
 
         Returns
@@ -67,12 +67,12 @@ class BP_LSD:
         return self._decoder.decoder(syndrome)
 
     def decode_batch(self, syndromes: np.ndarray, verbose=True) -> np.ndarray:
-        """Decodes a several samples of an experiment. 
+        """Decodes a several samples of an experiment.
 
         Parameters
         ----------
         syndromes: np.ndarray(S, D)
-            Observed (detector) syndrome vectors for each sample. 
+            Observed (detector) syndrome vectors for each sample.
             Its shape must be ``(num_shots, dem.num_detectors)``.
         verbose
             If True, prints a progress bar.
