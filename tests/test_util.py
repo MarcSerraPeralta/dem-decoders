@@ -13,7 +13,7 @@ def test_remove_gauge_detectors():
         """
         error(0.5) D0
         error(0.1) D1
-                              """
+        """
     )
     expected_dem = stim.DetectorErrorModel("error(0.1) D1")
 
