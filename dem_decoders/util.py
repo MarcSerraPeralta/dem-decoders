@@ -1,4 +1,5 @@
 import numbers
+import stim
 
 
 def comb_two_probs(p1: float, p2: float) -> float:
@@ -46,3 +47,16 @@ def comb_probs(*probs) -> float | int:
         odd_prob = comb_two_probs(odd_prob, p)
 
     return odd_prob
+
+
+def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorModel:
+    if not isinstance(dem, stim.DetectorErrorModel):
+        raise TypeError(f"'dem' is not a stim.DetectorErrorModel, but a {type(dem)}.")
+
+    new_dem = stim.DetectorErrorModel()
+    for instr in dem.flattened():
+        if instr.type == "error" and instr.args_copy()[0] == 0.5:
+            continue
+        new_dem.append(instr)
+
+    return new_dem
