@@ -61,6 +61,7 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
     for instr in dem.flattened():
         if instr.type == "error" and instr.args_copy()[0] == 0.5:
             gauge_detectors += instr.targets_copy() 
+    gauge_detectors = list(set(gauge_detectors)) # get unique gauge detectors
     gauge_detectors_val = sorted([d.val for d in gauge_detectors])
 
     def shift(target):
@@ -72,7 +73,6 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
         val = target.val
         for shift, g_val in enumerate(gauge_detectors_val):
             if val <= g_val:
-                print(val - shift, val, shift, gauge_detectors_val)
                 return stim.target_relative_detector_id(val - shift)
         return stim.target_relative_detector_id(val - shift - 1)
 
@@ -81,7 +81,7 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
         logs = [t for t in targets if t.is_logical_observable_id()]
         if len(dets) == 0 and len(logs) != 0:
             raise ValueError("An error mechanism does not trigger any errors" 
-                             f" but leads to a logical error: {dem_instr}")
+                             f" but leads to a logical error: {targets}")
         if len(dets) == 0:
             return False
         return True
