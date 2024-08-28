@@ -54,14 +54,14 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
         raise TypeError(f"'dem' is not a stim.DetectorErrorModel, but a {type(dem)}.")
 
     new_dem = stim.DetectorErrorModel()
-    
-    # first scan for all gauge detectors because they don't 
+
+    # first scan for all gauge detectors because they don't
     # have to appear at the beggining of the dem.
     gauge_detectors = []
     for instr in dem.flattened():
         if instr.type == "error" and instr.args_copy()[0] == 0.5:
-            gauge_detectors += instr.targets_copy() 
-    gauge_detectors = list(set(gauge_detectors)) # get unique gauge detectors
+            gauge_detectors += instr.targets_copy()
+    gauge_detectors = list(set(gauge_detectors))  # get unique gauge detectors
     gauge_detectors_val = sorted([d.val for d in gauge_detectors])
 
     def shift(target):
@@ -69,7 +69,7 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
         the gauge detectors."""
         if not target.is_relative_detector_id():
             return target
-            
+
         val = target.val
         for shift, g_val in enumerate(gauge_detectors_val):
             if val <= g_val:
@@ -80,13 +80,15 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
         dets = [t for t in targets if t.is_relative_detector_id()]
         logs = [t for t in targets if t.is_logical_observable_id()]
         if len(dets) == 0 and len(logs) != 0:
-            raise ValueError("An error mechanism does not trigger any errors" 
-                             f" but leads to a logical error: {targets}")
+            raise ValueError(
+                "An error mechanism does not trigger any errors"
+                f" but leads to a logical error: {targets}"
+            )
         if len(dets) == 0:
             return False
         return True
-            
-    # remove the gauge detectors 
+
+    # remove the gauge detectors
     for instr in dem.flattened():
         if instr.type == "error":
             new_targets = [t for t in instr.targets_copy() if t not in gauge_detectors]
@@ -94,14 +96,18 @@ def remove_gauge_detectors(dem: stim.DetectorErrorModel) -> stim.DetectorErrorMo
                 # remove separators at the beginning or end of new_targets
                 # because it leads to an error when creating the 'stim.DemInstruction'.
                 # it must be checked after the targets are valid so that 'new_targets'
-                # is not empty. 
+                # is not empty.
                 if new_targets[0].is_separator():
                     new_targets = new_targets[1:]
                 if new_targets[-1].is_separator():
                     new_targets = new_targets[:-1]
                 # reindex the detectors
                 new_targets = [shift(t) for t in new_targets]
-                
-                new_dem.append(stim.DemInstruction("error", args=instr.args_copy(), targets=new_targets))
+
+                new_dem.append(
+                    stim.DemInstruction(
+                        "error", args=instr.args_copy(), targets=new_targets
+                    )
+                )
 
     return new_dem
