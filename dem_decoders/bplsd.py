@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import stim
 from ldpc.bplsd_decoder import BpLsdDecoder
@@ -7,13 +9,21 @@ from .transformations import dem_to_hplc
 
 
 class BP_LSD:
-    def __init__(self, dem: stim.DetectorErrorModel, **kargs_bplsd) -> None:
+    def __init__(
+        self,
+        dem: stim.DetectorErrorModel,
+        verbose: Optional[bool] = None,
+        **kargs_bplsd,
+    ) -> None:
         """Initialises the BeliefPropagation+LocalizedStatisticsDecoder (BP+LSD)
 
         Parameters
         ----------
         dem
             Decoding graph in the form of ``stim.DetectorErrorModel``.
+        verbose
+            If specified, the ``verbose`` option in ``decode_batch`` are
+            overwritten with the value given here.
         kargs_bplsd
             Dictionary with extra arguments for ``lpdc.bplsd_decoder§``.
         """
@@ -27,6 +37,8 @@ class BP_LSD:
             channel_probs=self.priors,
             **kargs_bplsd,
         )
+
+        self.verbose = verbose
 
         return
 
@@ -76,6 +88,8 @@ class BP_LSD:
             Its shape must be ``(num_shots, dem.num_detectors)``.
         verbose
             If True, prints a progress bar.
+            This value is overwritten by the one specified when
+            initializing this object.
 
         Returns
         -------
@@ -83,6 +97,9 @@ class BP_LSD:
             Prediction of the logical flips for each sample.
             Its shape is ``(num_shots, dem.num_observables)``.
         """
+        if self.verbose is not None:
+            verbose = self.verbose
+
         predictions = np.zeros(
             (syndromes.shape[0], self.logical_matrix.shape[0]), dtype=bool
         )

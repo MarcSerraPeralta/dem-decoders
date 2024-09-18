@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import stim
 from ldpc.belief_find_decoder import BeliefFindDecoder
@@ -7,13 +9,18 @@ from .transformations import dem_to_hplc
 
 
 class BP_UF:
-    def __init__(self, dem: stim.DetectorErrorModel, **kargs_bpuf) -> None:
+    def __init__(
+        self, dem: stim.DetectorErrorModel, verbose: Optional[bool] = None, **kargs_bpuf
+    ) -> None:
         """Initialises the BeliefPropagation+UnionFind (BP+UF)
 
         Parameters
         ----------
         dem
             Decoding graph in the form of ``stim.DetectorErrorModel``.
+        verbose
+            If specified, the ``verbose`` option in ``decode_batch`` are
+            overwritten with the value given here.
         kargs_bpuf
             Dictionary with extra arguments for ``lpdc.belief_find_decoder``.
         """
@@ -32,6 +39,8 @@ class BP_UF:
             error_channel=self.priors,
             **kargs_bpuf,
         )
+
+        self.verbose = verbose
 
         return
 
@@ -81,6 +90,8 @@ class BP_UF:
             Its shape must be ``(num_shots, dem.num_detectors)``.
         verbose
             If True, prints a progress bar.
+            This value is overwritten by the one specified when
+            initializing this object.
 
         Returns
         -------
@@ -88,6 +99,9 @@ class BP_UF:
             Prediction of the logical flips for each sample.
             Its shape is ``(num_shots, dem.num_observables)``.
         """
+        if self.verbose is not None:
+            verbose = self.verbose
+
         predictions = np.zeros(
             (syndromes.shape[0], self.logical_matrix.shape[0]), dtype=bool
         )
