@@ -21,4 +21,10 @@ def test_bp_osd():
     assert predictions.shape == (1_000, 1)
     assert np.average(predictions != log_flips) < 0.1
 
+    output = bposd.decode(detectors[0])
+    assert output.shape == (dem.num_observables,)
+
+    output = bposd.decode_to_faults_array(detectors[0])
+    assert output.shape == (dem.num_errors,)
+
     return
