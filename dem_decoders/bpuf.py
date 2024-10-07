@@ -78,7 +78,7 @@ class BP_UF:
             Prediction of the errors that happened in the sample.
             Its length matches ``dem.num_errors``.
         """
-        return self._decoder.decoder(syndrome)
+        return self._decoder.decode(syndrome)
 
     def decode_batch(self, syndromes: np.ndarray, verbose=True) -> np.ndarray:
         """Decodes a several samples of an experiment.

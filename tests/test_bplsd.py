@@ -15,10 +15,16 @@ def test_bp_lsd():
     detectors, log_flips = sampler.sample(shots=1_000, separate_observables=True)
 
     dem = circuit.detector_error_model()
-    bposd = BP_LSD(dem)
+    bplsd = BP_LSD(dem)
 
-    predictions = bposd.decode_batch(detectors)
+    predictions = bplsd.decode_batch(detectors)
     assert predictions.shape == (1_000, 1)
     assert np.average(predictions != log_flips) < 0.1
+
+    output = bplsd.decode(detectors[0])
+    assert output.shape == (dem.num_observables,)
+
+    output = bplsd.decode_to_faults_array(detectors[0])
+    assert output.shape == (dem.num_errors,)
 
     return
