@@ -1,4 +1,4 @@
-# dem-utils
+# dem-decoders
 
 ![example workflow](https://github.com/MarcSerraPeralta/dem-decoders/actions/workflows/actions.yaml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
