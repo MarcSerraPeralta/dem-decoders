@@ -19,7 +19,7 @@ dependencies = [
     "numpy",
     "stim",
     "scipy",
-    "ldpc @ git+ssh://git@github.com/quantumgizmos/ldpc_v2",
+    "ldpc",
     "tqdm",
 ]
 keywords = ["stim", "DetectorErrorModel", "QEC"]
