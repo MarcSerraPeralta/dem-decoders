@@ -1,4 +1,5 @@
 from typing import Tuple, List, Optional
+import warnings
 
 import numpy as np
 from scipy.sparse import csc_matrix
@@ -89,11 +90,11 @@ def dem_to_hplc(
     coords = np.empty(shape=(dem.num_detectors))
     if coords_dict:
         if dem.num_detectors != len(coords_dict):
-            raise ValueError(
-                "Either all the detectors have coordinates or none,"
-                " but not all of them have."
+            warnings.warn(
+                "Either all the detectors have coordinates or none, but not all of them have."
             )
-        coords = np.array([coords_dict[i] for i in range(dem.num_detectors)])
+        else:
+            coords = np.array([coords_dict[i] for i in range(dem.num_detectors)])
 
     return det_err_matrix, err_probs, log_err_matrix, coords
 
