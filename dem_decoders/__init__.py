@@ -4,7 +4,7 @@ from .bposd import BP_OSD
 from .bplsd import BP_LSD
 from .bpuf import BP_UF
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "util",
