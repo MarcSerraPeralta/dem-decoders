@@ -62,7 +62,7 @@ def dem_to_hplc(
             # append information
             if dets in det_err_list:
                 idx = det_err_list.index(dets)
-                if logs != set(log_err_list[idx]):
+                if logs != log_err_list[idx]:
                     raise ValueError(
                         f"Error {dets} and {det_err_list[idx]} trigger the same detectors,"
                         " but have different logical effect."
