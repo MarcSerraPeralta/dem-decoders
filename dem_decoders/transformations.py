@@ -49,12 +49,12 @@ def dem_to_hplc(
         if instr.type == "error":
             # get information
             p = instr.args_copy()[0]
-            dets, logs = [], []
+            dets, logs = set(), set()
             for t in instr.targets_copy():
                 if t.is_relative_detector_id():
-                    dets.append(t.val)
+                    dets.symmetric_difference_update([t.val])
                 elif t.is_logical_observable_id():
-                    logs.append(t.val)
+                    logs.symmetric_difference_update([t.val])
                 elif t.is_separator():
                     pass
                 else:
@@ -62,7 +62,7 @@ def dem_to_hplc(
             # append information
             if dets in det_err_list:
                 idx = det_err_list.index(dets)
-                if set(logs) != set(log_err_list[idx]):
+                if logs != log_err_list[idx]:
                     raise ValueError(
                         f"Error {dets} and {det_err_list[idx]} trigger the same detectors,"
                         " but have different logical effect."

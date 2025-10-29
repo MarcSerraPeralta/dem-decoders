@@ -23,6 +23,28 @@ def test_dem_to_hplc():
     return
 
 
+def test_dem_to_hplc_decomposed():
+    dem = stim.DetectorErrorModel(
+        """
+        error(0.1) D0 L0 ^ D1 L0
+        error(0.2) D0 L0
+        error(0.3) D1 L0
+        """
+    )
+
+    h, p, l, c = dem_to_hplc(dem)
+
+    assert l[0, 0] == 0
+    assert l[0, 1] == 1
+    assert l[0, 2] == 1
+
+    assert h[0, 0] == 1
+    assert h[1, 0] == 1
+    assert h[1, 1] == 0
+
+    return
+
+
 def test_hplc_to_dem():
     h = np.array([[1, 1, 0], [0, 1, 1]])
     p = [0.1, 0.2, 0.3]
